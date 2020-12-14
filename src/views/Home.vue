@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <h1>{{ message }}</h1>
+    <button v-on:click="createProduct()">new product</button>
     {{ products[7]}}
     <div v-for="product in products">
       <img v-bind:src="product.image_url" v-bind:alt="product.name">
@@ -30,6 +31,9 @@ export default {
         console.log(response.data);
         this.products = response.data;
       });
+    },
+    createProduct: function () {
+      console.log("creating product");
     },
   },
 };
