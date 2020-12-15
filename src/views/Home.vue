@@ -1,11 +1,17 @@
 <template>
   <div class="home">
     <h1>{{ message }}</h1>
-    <button v-on:click="createProduct()">new product</button>
+    <h4>build a proudct</h4>
+    <p>name:<input type="text" v-model="name"></p>
+    <p>description:<input type="text" v-model="description"></p>
+    <p>price:<input type="text" v-model="price"></p>
+    <p>image_url:<input type="text" v-model="image_url"></p>
+    <p><button v-on:click="createProduct()">new product</button></p>
     {{ products[7]}}
     <div v-for="product in products">
-      <img v-bind:src="product.image_url" v-bind:alt="product.name">
     <h2>{{ product.name }} </h2>
+      <img v-bind:src="product.image_url" v-bind:alt="product.name">
+       <h2>{{ product.price }} </h2>
     </div>
   </div>
 </template>
@@ -18,6 +24,10 @@ export default {
     return {
       message: "Welcome to Vue.js!",
       products: [],
+      name: "",
+      description: "",
+      price: "",
+      image_url: "",
     };
   },
   created: function () {
@@ -34,6 +44,16 @@ export default {
     },
     createProduct: function () {
       console.log("creating product");
+      var params = {
+        name: this.name,
+        price: this.price,
+        description: this.description,
+        image_url: this.image_url,
+      };
+      axios.post("/api/products", params).then((response) => {
+        console.log(response.data);
+        this.products.push(response.data);
+      });
     },
   },
 };
